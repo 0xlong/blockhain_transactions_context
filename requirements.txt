@@ -1,0 +1,27 @@
+# Core web framework and data processing
+streamlit>=1.28.0
+pandas>=2.0.0
+numpy>=1.24.0
+
+# HTTP requests and API interactions
+requests>=2.31.0
+
+# Data visualization and charting
+plotly>=5.15.0
+
+# Date and time handling
+python-dateutil>=2.8.0
+python-dotenv>=1.0.0
+
+# Web scraping dependencies
+beautifulsoup4>=4.12.0
+lxml>=4.9.0
+
+# Selenium for JavaScript-heavy websites (Arkham Intel)
+selenium>=4.15.0
+webdriver-manager>=4.0.0
+
+# LangChain for AI processing
+langchain>=0.3.0
+langchain-core>=0.3.0
+langchain-google-genai>=0.3.0
