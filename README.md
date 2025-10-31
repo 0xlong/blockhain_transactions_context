@@ -36,9 +36,11 @@ python -m pytest tests/
 ```
 
 ## Project Structure
+```
 whales_alert/
 ├── modules/          # Data extraction modules
 ├── pages/            # Streamlit pages
 ├── utils/             # Utility functions
 ├── tests/             # Test files
 └── streamlit_app.py   # Main application
+```
