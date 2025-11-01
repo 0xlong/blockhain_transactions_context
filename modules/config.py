@@ -31,6 +31,12 @@ SLACK_CHANNEL_ID = os.getenv("SLACK_CHANNEL_ID")
 METASLEUTH_API_KEY = os.getenv("METASLEUTH_API_KEY")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
+# Authentication credentials for login
+# These are stored in .env file for security purposes
+# The username and password required to access the application
+LOGIN_USERNAME = os.getenv("LOGIN_USERNAME")
+LOGIN_PASSWORD = os.getenv("LOGIN_PASSWORD")
+
 # Validate that all required keys are present
 def validate_required_keys(required_keys_list=None):
     """
@@ -46,9 +52,10 @@ def validate_required_keys(required_keys_list=None):
     """
     if required_keys_list is None:
         required_keys_list = [
-            "SLACK_API_TOKEN", "INFURA_API_KEY", "ALCHEMY_API_KEY", 
+            "INFURA_API_KEY", "ALCHEMY_API_KEY", 
             "HYPERLIQUID_API_KEY", "ETHERSCAN_API_KEY", "MORALIS_API_KEY",
-            "COINGECKO_API_KEY", "SLACK_CHANNEL_ID", "METASLEUTH_API_KEY", "GEMINI_API_KEY"
+            "COINGECKO_API_KEY", "METASLEUTH_API_KEY", "GEMINI_API_KEY",
+            "LOGIN_USERNAME", "LOGIN_PASSWORD"
         ]
     
     missing_keys = [key for key in required_keys_list if not os.getenv(key)]
