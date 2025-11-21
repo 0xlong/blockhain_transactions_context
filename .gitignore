@@ -25,6 +25,10 @@ ENV/
 Thumbs.db
 
 # Data files (optional - uncomment if you want to ignore data files)
-data/
+# Ignore all files in data/ directory by default
+data/*
+# But include these specific directories in the repository
+!data/images/
+!data/info/
 *.csv
 *.json

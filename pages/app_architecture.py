@@ -5,7 +5,7 @@ st.set_page_config(layout="wide")
 
 # Main logic
 with st.status("Product Architecture", expanded=True):
-    st.image("data/images/app_architecture.png")
+    st.image("data/images/app_architecture.PNG")
 
 with st.status("Product Description"):
     # Read the PM guide from markdown file

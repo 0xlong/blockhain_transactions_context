@@ -1,0 +1,14 @@
+# .gcloudignore - Files to exclude when deploying to GCP
+# Similar to .dockerignore but for Google Cloud
+
+.git
+.gitignore
+__pycache__/
+*.pyc
+.env
+.env.local
+whales_alert_slack/
+venv/
+tests/
+node_modules/
+

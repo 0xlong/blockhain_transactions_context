@@ -1,0 +1,38 @@
+# .dockerignore - Files to exclude when building Docker image
+# This reduces image size and protects sensitive data
+
+# Virtual environment (not needed in container)
+whales_alert_slack/
+venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environment files (NEVER include in container)
+.env
+.env.local
+.env.production
+
+# Git files
+.git/
+.gitignore
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+
+# Test files (not needed in production)
+tests/
+*.pytest_cache/
+
+# Documentation
+README.md
+LICENSE
+
+# Windows specific
+Thumbs.db
+desktop.ini
+
