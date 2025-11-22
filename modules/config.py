@@ -68,6 +68,9 @@ REPORTS_DIR = DATA_DIR / "reports"
 OHLC_DIR = DATA_DIR / "prices" / "ohlc"
 CSV_DIR = DATA_DIR
 
+OHLC_DIR.mkdir(parents=True, exist_ok=True)
+REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+
 # ===== CONNECTION POOLING - Centralized HTTP Session =====
 # One shared session for all API calls across the entire application
 # This enables connection pooling - reuses TCP connections for faster requests

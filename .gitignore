@@ -27,6 +27,8 @@ Thumbs.db
 # Data files (optional - uncomment if you want to ignore data files)
 # Ignore all files in data/ directory by default
 data/*
+aws_ec2_context/*
+
 # But include these specific directories in the repository
 !data/images/
 !data/info/

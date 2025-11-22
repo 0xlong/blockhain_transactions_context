@@ -1,46 +1,56 @@
 # Central Docker Compose for multi-app architecture (one proxy, multiple backends).
-   # Why central? Shared Nginx routes all (e.g., /auto-sql → app1, /dashboard → app2). One network/restart policy.
-   # Run from root: 'docker compose up -d'.
+# Why central? Shared Nginx routes all (e.g., /auto-sql → app1, /dashboard → app2). One network/restart policy.
+# Run from /home/ec2-user/apps: 'docker compose up -d'.
 
-   services:
-     nginx:  # Shared proxy (single doorman for all apps).
-       image: nginx:alpine
-       ports:
-         - "80:80"
-         - "443:443"  # For HTTPS later.
-       volumes:
-         - './nginx/conf.d:/etc/nginx/conf.d'  # Shared config (routes all apps).
-       depends_on:
-         - auto-sql  # Starts after apps (add more depends_on for new apps).
-       restart: unless-stopped
-       networks:
-         - app-net
+services:
+  nginx:  # Shared proxy (single doorman for all apps).
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"  # For HTTPS later.
+    volumes:
+      - './nginx/conf.d:/etc/nginx/conf.d'  # Nginx config directory
+      # Why ./nginx/conf.d? Matches your EC2 structure: /home/ec2-user/apps/nginx/conf.d/default.conf
+      # Mounts entire conf.d directory so any .conf files are loaded by nginx
+      
+      - './nginx/landing_page:/usr/share/nginx/html/landing'  # Landing page HTML/assets
+      # Why ./nginx/landing_page? Keeps all nginx-related files organized together
+      # Changes to landing_page/index.html take effect after 'docker compose restart nginx'
+    depends_on:
+      - auto-sql  # Starts after apps (add more depends_on for new apps).
+    restart: unless-stopped
+    networks:
+      - app-net
 
-     auto-sql:  # First app (your Streamlit).
-       image: auto-sql-app:latest  # Builds from subdir Dockerfile (auto-tags auto-sql-app:latest).
-       expose:
-         - "8501"
-       volumes:
-         - auto-sql-data:/app/data  # App-specific persistence.
-       restart: unless-stopped
-       networks:
-         - app-net
+  auto-sql:  # First app (your Streamlit).
+    image: auto-sql-app:latest  # Builds from subdir Dockerfile (auto-tags auto-sql-app:latest).
+    expose:
+      - "8501"
+    volumes:
+      - auto-sql-data:/app/data  # App-specific persistence.
+    restart: unless-stopped
+    networks:
+      - app-net
+  
+   blockchain-transactions-context:  # Second app
+    build:
+      context: ./blockchain_transactions_context  # Path to app folder (with underscores)
+      dockerfile: Dockerfile
+    image: blockchain-transactions-context:latest
+    expose:
+      - "8502"  # Adjust to your app's port
+    volumes:
+      - blockchain-data:/app/data
+    env_file:
+      - ./blockchain_transactions_context/.env
+    restart: unless-stopped
+    networks:
+      - app-net
 
-     # Future app example (uncomment/add when ready):
-     # other-app:
-     #   build: ./other-app  # Builds from its subdir.
-     #   expose:
-     #     - "3000"  # Its port.
-     #   volumes:
-     #     - other-data:/app/data
-     #   restart: unless-stopped
-     #   networks:
-     #     - app-net
+volumes:
+  auto-sql-data: {}
+  blockchain-data: {}
 
-   volumes:
-     auto-sql-data: {}
-     # other-data: {}  # Add per-app.
-
-   networks:
-     app-net:
-       driver: bridge
+networks:
+  app-net:
+    driver: bridge
